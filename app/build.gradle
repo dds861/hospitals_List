@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs'
 }
 
 android {
@@ -46,9 +47,12 @@ dependencies {
 
     implementation "androidx.appcompat:appcompat:$rootProject.appCompatVersion"
     implementation "androidx.activity:activity-ktx:$rootProject.activity_version"
+    implementation "androidx.fragment:fragment-ktx:$rootProject.fragment_version"
+    implementation "androidx.cardview:cardview:$rootProject.cardview"
 
     // Room components
     implementation "androidx.room:room-ktx:$rootProject.roomVersion"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt "androidx.room:room-compiler:$rootProject.roomVersion"
     androidTestImplementation "androidx.room:room-testing:$rootProject.roomVersion"
 
@@ -76,4 +80,8 @@ dependencies {
 
     //Paging Library
     implementation "androidx.paging:paging-runtime-ktx:$rootProject.pagingVersion"
+
+    //navigation component
+    implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.navigationFragment"
+    implementation "androidx.navigation:navigation-ui-ktx:$rootProject.navigationFragment"
 }
