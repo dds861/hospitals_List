@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/sectionsFragment">
+
+    <fragment
+        android:id="@+id/sectionsFragment"
+        android:name="com.dd.hospitalslist.ui.sections.SectionsFragment"
+        android:label="sections_fragment"
+        tools:layout="@layout/sections_fragment">
+        <action
+
+            android:id="@+id/action_sectionsFragment_to_hospitalFragment"
+            app:destination="@id/hospitalFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/hospitalFragment"
+        android:name="com.dd.hospitalslist.ui.hospitals.HospitalFragment"
+        android:label="HospitalFragment"
+
+        tools:layout="@layout/hospitals_fragment" />
+</navigation>
