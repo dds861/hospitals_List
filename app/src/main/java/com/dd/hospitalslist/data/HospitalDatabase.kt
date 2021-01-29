@@ -24,7 +24,8 @@ abstract class HospitalDatabase : RoomDatabase() {
         fun getInstance(context: Context, coroutineScope: CoroutineScope): HospitalDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(context.applicationContext, HospitalDatabase::class.java, "hospitals")
-                        .build()
+                    .createFromAsset("database/hospitals.db")
+                    .build()
                 INSTANCE = instance
                 instance
             }
