@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/sectionsFragment">
+    app:startDestination="@id/regionsFragment">
 
     <fragment
         android:id="@+id/sectionsFragment"
@@ -21,4 +21,12 @@
         android:label="HospitalFragment"
 
         tools:layout="@layout/hospitals_fragment" />
+    <fragment
+        android:id="@+id/regionsFragment"
+        android:name="com.dd.hospitalslist.ui.regions.RegionsFragment"
+        android:label="RegionsFragment" >
+        <action
+            android:id="@+id/action_regionsFragment_to_sectionsFragment"
+            app:destination="@id/sectionsFragment" />
+    </fragment>
 </navigation>
