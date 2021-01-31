@@ -2,15 +2,16 @@ package com.dd.hospitalslist.ui.hospitals
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dd.hospitalslist.HospitalApplication
+import com.dd.hospitalslist.R
 import com.dd.hospitalslist.databinding.HospitalsFragmentBinding
+import kotlinx.android.synthetic.main.sections_fragment.*
 
 
 class HospitalFragment : Fragment() {
@@ -28,9 +29,9 @@ class HospitalFragment : Fragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         binding = HospitalsFragmentBinding.inflate(inflater, container, false)
         return binding.root
@@ -48,5 +49,31 @@ class HospitalFragment : Fragment() {
             adapter.submitList(it)
         })
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.toolbar.inflateMenu(R.menu.menu)
+        binding.toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.action_back -> {
+                    findNavController().navigateUp()
+                    true
+                }
+                R.id.action_done -> {
+                    // Save profile changes
+                    true
+                }
+                else -> false
+            }
+        }
+
+
+        toolbar.setNavigationIcon(R.drawable.abc_vector_test)
+
+        toolbar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
+    }
+
 
 }
