@@ -2,24 +2,26 @@ package com.dd.hospitalslist.ui.hospitals
 
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.AbsListView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.dd.hospitalslist.HospitalApplication
 import com.dd.hospitalslist.R
 import com.dd.hospitalslist.databinding.HospitalsFragmentBinding
-import kotlinx.android.synthetic.main.sections_fragment.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 
 class HospitalFragment : Fragment() {
     private val TAG = "HospitalFragment"
-
-    companion object {
-        fun newInstance() = HospitalFragment()
-    }
 
     private lateinit var binding: HospitalsFragmentBinding
 
@@ -42,12 +44,53 @@ class HospitalFragment : Fragment() {
 
         val adapter = HospitalAdapter()
         binding.recyclerviewList.adapter = adapter
-        binding.recyclerviewList.layoutManager = LinearLayoutManager(activity)
+        binding.recyclerviewList.layoutManager = LinearLayoutManager(requireContext())
 
-        hospitalViewModel.hospitals.observe(viewLifecycleOwner, Observer {
-            Log.i(TAG, "onCreate: $it")
-            adapter.submitList(it)
+
+
+        lifecycleScope.launch {
+            @OptIn(ExperimentalCoroutinesApi::class)
+            hospitalViewModel.hospitals.collectLatest { pagingData ->
+
+                adapter.submitData(pagingData)
+            }
+        }
+
+
+
+
+        binding.recyclerviewList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) {
+                    binding.includeHospitalFilter.root.visibility = View.GONE
+                    Log.i(TAG, "onBindViewHolder: Scrolled Down")
+                } else {
+                    binding.includeHospitalFilter.root.visibility = View.VISIBLE
+                    Log.i(TAG, "onBindViewHolder: Scrolled Up")
+                }
+            }
+
+//            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+//                super.onScrollStateChanged(recyclerView, newState)
+//                when (newState) {
+//                    AbsListView.OnScrollListener.SCROLL_STATE_FLING -> {
+//                        // Do something
+//                    }
+//                    AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL -> {
+//                        // Do something
+//                    }
+//                    else -> {
+//                        // Do something
+//                    }
+//                }
+//            }
         })
+
+        //        binding.btn.setOnClickListener {
+        //            val action = SectionsFragmentDirections.actionSectionsFragmentToHospitalFragment()
+        //            findNavController().navigate(action)
+        //        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -55,25 +98,19 @@ class HospitalFragment : Fragment() {
         binding.toolbar.inflateMenu(R.menu.menu)
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
-                R.id.action_back -> {
+                R.id.action_night_mode -> {
                     findNavController().navigateUp()
                     true
                 }
-                R.id.action_done -> {
-                    // Save profile changes
-                    true
-                }
+
                 else -> false
             }
         }
 
-
-        toolbar.setNavigationIcon(R.drawable.abc_vector_test)
-
-        toolbar.setNavigationOnClickListener {
-            findNavController().navigateUp()
-        }
+        //        //navigate Up
+        //        binding.toolbar.setNavigationIcon(R.drawable.abc_vector_test)
+        //        binding.toolbar.setNavigationOnClickListener {
+        //            findNavController().navigateUp()
+        //        }
     }
-
-
 }

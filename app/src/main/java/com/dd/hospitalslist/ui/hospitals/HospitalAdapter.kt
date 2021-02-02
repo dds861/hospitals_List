@@ -1,12 +1,11 @@
 package com.dd.hospitalslist.ui.hospitals
 
 import android.view.ViewGroup
-import androidx.paging.PagedListAdapter
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.dd.hospitalslist.data.entities.Hospital
 
-class HospitalAdapter : PagedListAdapter<Hospital, HospitalViewHolder>(DIFF_CALLBACK) {
-
+class HospitalAdapter : PagingDataAdapter<Hospital, HospitalViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HospitalViewHolder {
         return HospitalViewHolder.create(parent)
@@ -25,7 +24,6 @@ class HospitalAdapter : PagedListAdapter<Hospital, HospitalViewHolder>(DIFF_CALL
             override fun areContentsTheSame(oldItem: Hospital, newItem: Hospital): Boolean {
                 return oldItem == newItem
             }
-
         }
     }
 }

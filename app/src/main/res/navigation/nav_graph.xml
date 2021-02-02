@@ -3,30 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/regionsFragment">
+    app:startDestination="@id/hospitalFragment">
 
-    <fragment
-        android:id="@+id/sectionsFragment"
-        android:name="com.dd.hospitalslist.ui.sections.SectionsFragment"
-        android:label="sections_fragment"
-        tools:layout="@layout/sections_fragment">
-        <action
-
-            android:id="@+id/action_sectionsFragment_to_hospitalFragment"
-            app:destination="@id/hospitalFragment" />
-    </fragment>
     <fragment
         android:id="@+id/hospitalFragment"
         android:name="com.dd.hospitalslist.ui.hospitals.HospitalFragment"
         android:label="HospitalFragment"
 
         tools:layout="@layout/hospitals_fragment" />
-    <fragment
-        android:id="@+id/regionsFragment"
-        android:name="com.dd.hospitalslist.ui.regions.RegionsFragment"
-        android:label="RegionsFragment" >
-        <action
-            android:id="@+id/action_regionsFragment_to_sectionsFragment"
-            app:destination="@id/sectionsFragment" />
-    </fragment>
 </navigation>

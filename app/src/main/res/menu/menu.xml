@@ -3,14 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_back"
-        android:icon="@drawable/abc_vector_test"
+        android:id="@+id/action_night_mode"
+        android:icon="@drawable/ic_night_mode"
         android:title="@string/app_name"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/action_done"
-        android:icon="@drawable/ic_action_copy"
-        android:title="@string/bottom_sheet_behavior"
-        app:showAsAction="ifRoom|withText" />
 
 </menu>
