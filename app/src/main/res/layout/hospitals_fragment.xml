@@ -30,7 +30,18 @@
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
+    <androidx.recyclerview.widget.RecyclerView
 
+
+        android:id="@+id/recyclerviewList"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hospitals_coordinator_layout"
+        app:layout_constraintVertical_bias="0.0"
+        tools:listitem="@layout/item_recyclerview" />
 
     <include
         android:id="@+id/includeHospitalFilter"
@@ -39,21 +50,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/hospitals_coordinator_layout"
-        />
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerviewList"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/includeHospitalFilter"
-        app:layout_constraintVertical_bias="0.0"
-        tools:listitem="@layout/item_recyclerview" />
-
+        app:layout_constraintTop_toBottomOf="@id/hospitals_coordinator_layout" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
