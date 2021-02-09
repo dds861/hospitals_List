@@ -1,5 +1,6 @@
 package com.dd.hospitalslist.data
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import androidx.paging.Pager
@@ -12,10 +13,12 @@ import kotlinx.coroutines.flow.Flow
 
 class HospitalRepository(private val hospitalDao: HospitalDao) {
 
+    private val TAG = "HospitalRepository"
+
     fun getHospitals(hospitalModel: HospitalModel): Flow<PagingData<Hospital>> {
         return Pager(
-                config = PagingConfig(pageSize = 5, enablePlaceholders = true, prefetchDistance = 7),
-                pagingSourceFactory = { hospitalDao.getHospitals(getFilteredQuery(hospitalModel)) }
+            config = PagingConfig(pageSize = 5, enablePlaceholders = true, prefetchDistance = 7),
+            pagingSourceFactory = { hospitalDao.getHospitals(getFilteredQuery(hospitalModel)) }
         ).flow
     }
 
@@ -39,7 +42,7 @@ class HospitalRepository(private val hospitalDao: HospitalDao) {
 
 
     private fun getFilteredQuery(hospitalModel: HospitalModel): SimpleSQLiteQuery {
-        val simpleQuery = StringBuilder().append("SELECT * FROM ${Hospital.TABLE_NAME} ")
+
 
         val regionsQuery = if (hospitalModel.regionState == RegionState.SPECIFIC_ITEM) {
             " ${Hospital.REGION} = \"${hospitalModel.regionName}\""
@@ -49,20 +52,54 @@ class HospitalRepository(private val hospitalDao: HospitalDao) {
             " ${Hospital.CATEGORY} = \"${hospitalModel.categoryName}\""
         } else STRING_EMPTY
 
-        when {
-            regionsQuery.isEmpty() and categoriesQuery.isEmpty() -> {
-                simpleQuery.append("")
-            }
-            regionsQuery.isNotEmpty() and categoriesQuery.isNotEmpty() -> {
-                simpleQuery.append("WHERE $regionsQuery AND $categoriesQuery")
-            }
-            regionsQuery.isNotEmpty() or categoriesQuery.isNotEmpty() -> {
-                simpleQuery.append("WHERE $regionsQuery  $categoriesQuery")
-            }
-        }
+        val searchQuery = if (hospitalModel.searchQuery.isNotEmpty()) {
+            " ${Hospital.BRANCH} LIKE '%${hospitalModel.searchQuery}%' "
+        } else STRING_EMPTY
+
+/*        if (regionsQuery.isEmpty() and categoriesQuery.isEmpty() and searchQuery.isEmpty()) {
+            simpleQuery.append("")
+        } else {
+            simpleQuery.append(" WHERE ")
 
 
-        simpleQuery.append(" ORDER BY ${Hospital.BRANCH}")
-        return SimpleSQLiteQuery(simpleQuery.toString())
+
+            if (regionsQuery.isNotEmpty() and categoriesQuery.isNotEmpty()) {
+                simpleQuery.append(" $regionsQuery AND $categoriesQuery")
+            } else if (regionsQuery.isNotEmpty() or categoriesQuery.isNotEmpty()) {
+                simpleQuery.append(" $regionsQuery  $categoriesQuery")
+            }
+
+
+        }*/
+
+
+        val whereQuery =
+            if (regionsQuery.isEmpty() and categoriesQuery.isEmpty() and searchQuery.isEmpty()) {
+                STRING_EMPTY
+            } else {
+                " WHERE "
+            }
+
+        val andFirstQuery = if (regionsQuery.isNotEmpty() and categoriesQuery.isNotEmpty()) {
+            " AND"
+        } else STRING_EMPTY
+
+        val andSecondQuery =
+            if ((regionsQuery.isNotEmpty() or categoriesQuery.isNotEmpty()) and searchQuery.isNotEmpty()) {
+                " AND"
+            } else STRING_EMPTY
+
+
+        val queryText = "SELECT * FROM ${Hospital.TABLE_NAME} $whereQuery" +
+                " $regionsQuery" +
+                " $andFirstQuery" +
+                " $categoriesQuery" +
+                " $andSecondQuery" +
+                " $searchQuery" +
+                " ORDER BY ${Hospital.BRANCH}"
+
+        Log.i(TAG, "getFilteredQuery: $queryText")
+
+        return SimpleSQLiteQuery(queryText)
     }
 }

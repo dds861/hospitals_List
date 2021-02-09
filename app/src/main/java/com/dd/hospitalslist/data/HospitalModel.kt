@@ -3,6 +3,8 @@ package com.dd.hospitalslist.data
 import com.dd.hospitalslist.utils.Constants.STRING_EMPTY
 
 data class HospitalModel(
+
+    val searchQuery: String = STRING_EMPTY,
     val regionName: String = STRING_EMPTY,
     val categoryName: String = STRING_EMPTY,
     val categoryState: CategoryState = CategoryState.ALL,

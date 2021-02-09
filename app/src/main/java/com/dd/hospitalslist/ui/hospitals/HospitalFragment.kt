@@ -1,11 +1,14 @@
 package com.dd.hospitalslist.ui.hospitals
 
+import android.R
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -47,75 +50,48 @@ class HospitalFragment : Fragment() {
         binding.recyclerviewList.adapter = adapter
         binding.recyclerviewList.layoutManager = LinearLayoutManager(requireContext())
 
-        hospitalViewModel.regionNames.observe(viewLifecycleOwner, { list ->
-            context?.let { context ->
-                ArrayAdapter(
-                    context,
-                    android.R.layout.simple_spinner_item,
-                    list
-                ).also { adapter ->
 
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    binding.spinnerRegion.adapter = adapter
-                }
+        setupSpinners()
+
+        setupSearchView()
+
+    }
+
+    private fun setupSearchView() {
+        binding.searchView.setOnQueryTextFocusChangeListener { v, hasFocus ->
+            Log.i(TAG, "setupSearchView v: $v")
+            Log.i(TAG, "setupSearchView hasFocus: $hasFocus")
+        }
+
+
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
             }
-            binding.spinnerRegion.setSelection(ALL_REGIONS)
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                Log.i(TAG, "onQueryTextSubmit newText: $newText")
+
+                newText?.let {
+                    hospitalViewModel.hospitalModel =
+                        hospitalViewModel.hospitalModel.copy(searchQuery = it)
+                }
+                setList(hospitalViewModel.hospitalModel)
+                return true
+            }
+
         })
+    }
 
-        hospitalViewModel.categoriesName.observe(viewLifecycleOwner, { list ->
-            context?.let { context ->
-                ArrayAdapter(
-                    context,
-                    android.R.layout.simple_spinner_item,
-                    list
-                ).also { adapter ->
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    binding.spinnerCategory.adapter = adapter
-                }
-            }
-            binding.spinnerCategory.setSelection(ALL_CATEGORIES)
-        })
+    private fun setupSpinners() {
+        spinnerRegionObserve()
+        spinnerCategoryObserve()
+        spinnerRegionItemSelectedListenerSetup()
+        spinnerCategoryItemSelectedListenerSetup()
+    }
 
-
-
-        binding.spinnerRegion.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-
-                    val selectedItem = binding.spinnerRegion.selectedItem.toString()
-
-                    if (position == ALL_REGIONS) {
-                        hospitalViewModel.hospitalModel =
-                            hospitalViewModel.hospitalModel.copy(
-                                regionName = selectedItem,
-                                regionState = RegionState.ALL
-                            )
-                    } else {
-                        hospitalViewModel.hospitalModel =
-                            hospitalViewModel.hospitalModel.copy(
-                                regionName = selectedItem,
-                                regionState = RegionState.SPECIFIC_ITEM
-                            )
-                    }
-
-
-
-                    setList(
-                        hospitalViewModel.hospitalModel
-
-                    )
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                }
-
-            }
-
+    private fun spinnerCategoryItemSelectedListenerSetup() {
         binding.spinnerCategory.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
@@ -154,7 +130,79 @@ class HospitalFragment : Fragment() {
                 }
 
             }
+    }
 
+    private fun spinnerRegionItemSelectedListenerSetup() {
+        binding.spinnerRegion.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+
+                    val selectedItem = binding.spinnerRegion.selectedItem.toString()
+
+                    if (position == ALL_REGIONS) {
+                        hospitalViewModel.hospitalModel =
+                            hospitalViewModel.hospitalModel.copy(
+                                regionName = selectedItem,
+                                regionState = RegionState.ALL
+                            )
+                    } else {
+                        hospitalViewModel.hospitalModel =
+                            hospitalViewModel.hospitalModel.copy(
+                                regionName = selectedItem,
+                                regionState = RegionState.SPECIFIC_ITEM
+                            )
+                    }
+
+
+
+                    setList(
+                        hospitalViewModel.hospitalModel
+
+                    )
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+
+            }
+    }
+
+    private fun spinnerCategoryObserve() {
+        hospitalViewModel.categoriesName.observe(viewLifecycleOwner, { list ->
+            context?.let { context ->
+                ArrayAdapter(
+                    context,
+                    R.layout.simple_spinner_item,
+                    list
+                ).also { adapter ->
+                    adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+                    binding.spinnerCategory.adapter = adapter
+                }
+            }
+            binding.spinnerCategory.setSelection(ALL_CATEGORIES)
+        })
+    }
+
+    private fun spinnerRegionObserve() {
+        hospitalViewModel.regionNames.observe(viewLifecycleOwner, { list ->
+            context?.let { context ->
+                ArrayAdapter(
+                    context,
+                    R.layout.simple_spinner_item,
+                    list
+                ).also { adapter ->
+
+                    adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+                    binding.spinnerRegion.adapter = adapter
+                }
+            }
+            binding.spinnerRegion.setSelection(ALL_REGIONS)
+        })
     }
 
     companion object {
