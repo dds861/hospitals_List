@@ -6,11 +6,11 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.dd.hospitalslist.data.entities.Hospital
 import com.dd.hospitalslist.data.entities.Region
-import com.dd.hospitalslist.data.entities.Section
+import com.dd.hospitalslist.data.entities.Category
 import kotlinx.coroutines.CoroutineScope
 
 @Database(
-        entities = [Hospital::class, Region::class, Section::class],
+        entities = [Hospital::class, Region::class, Category::class],
         version = 1,
         exportSchema = false
 )
