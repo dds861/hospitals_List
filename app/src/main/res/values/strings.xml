@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">hospitalslist</string>
+    <string name="emptyData">Данные отсутствуют</string>
 </resources>
