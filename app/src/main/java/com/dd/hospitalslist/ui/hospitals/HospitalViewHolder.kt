@@ -21,12 +21,12 @@ class HospitalViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private val TAG = "HospitalViewHolder"
 
-    private val tvAddress = itemView.findViewById<TextView>(R.id.tvAddress)
-    private val tvJobTitle = itemView.findViewById<TextView>(R.id.tvJobTitle)
-    private val tvOfficeHours = itemView.findViewById<TextView>(R.id.tvOfficeHours)
+    private val tvMedicalFacility = itemView.findViewById<TextView>(R.id.tvMedicalFacility)
+    private val tvRegion = itemView.findViewById<TextView>(R.id.tvRegion)
+    private val tvLocation = itemView.findViewById<TextView>(R.id.tvLocation)
     private val ivIconPhone = itemView.findViewById<ImageView>(R.id.ivIconPhone)
     private val tvPhone = itemView.findViewById<TextView>(R.id.tvPhone)
-    private val ivLocation = itemView.findViewById<ImageView>(R.id.ivIconOfficeHours)
+    private val ivLocation = itemView.findViewById<ImageView>(R.id.ivIconLocation)
     private val ivCopy = itemView.findViewById<ImageView>(R.id.ivCopy)
     private val ivShare = itemView.findViewById<ImageView>(R.id.ivShare)
     private val ivWhatsApp = itemView.findViewById<ImageView>(R.id.ivWhatsApp)
@@ -147,9 +147,9 @@ class HospitalViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     }
 
     fun bind(hospital: Hospital) {
-        tvAddress.text = hospital.branch
-        tvJobTitle.text = hospital.region
-        tvOfficeHours.text = hospital.address
-        tvPhone.text = hospital.phone
+        tvMedicalFacility.text = hospital.branch
+        tvRegion.text = hospital.region
+        tvLocation.text = hospital.address
+        tvPhone.text = hospital.phone?.replace("\\n", "\n")
     }
 }

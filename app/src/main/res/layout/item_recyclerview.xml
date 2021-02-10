@@ -19,7 +19,7 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/tvAddress"
+            android:id="@+id/tvMedicalFacility"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@color/primary_dark"
@@ -32,11 +32,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="г. Нур-Султан, ул. Сейфуллина 22" />
+            tools:text="Городская поликлиника №28" />
 
 
         <TextView
-            android:id="@+id/tvJobTitle"
+            android:id="@+id/tvRegion"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -45,21 +45,18 @@
             android:layout_marginBottom="16dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:textColor="@color/primary_light"
-            app:layout_constraintBottom_toTopOf="@id/ivIconPhone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvAddress"
-            tools:text="Руководитель отдела Сарыаркинского района по социальному обеспечению" />
+            app:layout_constraintTop_toBottomOf="@+id/tvMedicalFacility"
+            tools:text="город Алматы" />
 
         <ImageView
             android:id="@+id/ivIconPhone"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
             android:src="@drawable/ic_call_black_24dp"
             app:layout_constraintBottom_toBottomOf="@+id/tvPhone"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tvRegion"
             app:layout_constraintTop_toTopOf="@id/tvPhone" />
 
         <TextView
@@ -67,71 +64,84 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
             android:clickable="true"
             android:focusable="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/primary_light"
-            app:layout_constraintBottom_toTopOf="@id/ivIconOfficeHours"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivIconPhone"
+            app:layout_constraintTop_toBottomOf="@id/tvRegion"
             tools:text="8-7172-32-35-01" />
 
 
         <ImageView
-            android:id="@+id/ivIconOfficeHours"
+            android:id="@+id/ivIconLocation"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
             android:src="@drawable/ic_location_on_black_24dp"
-            app:layout_constraintBottom_toBottomOf="@+id/tvOfficeHours"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvOfficeHours" />
+            app:layout_constraintBottom_toBottomOf="@+id/tvLocation"
+            app:layout_constraintStart_toStartOf="@id/ivIconPhone"
+            app:layout_constraintTop_toTopOf="@id/tvLocation" />
 
         <TextView
-            android:id="@+id/tvOfficeHours"
+            android:id="@+id/tvLocation"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/primary_light"
             app:layout_constraintBottom_toTopOf="@id/ivCopy"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/ivIconPhone"
+            app:layout_constraintStart_toEndOf="@id/ivIconLocation"
+            app:layout_constraintTop_toBottomOf="@id/tvPhone"
 
-            tools:text="Понедельник – пятница с 09:00 до 18:30 часов, обед с 13:00 до 14:30" />
+            tools:text="г. Нур-Султан, ул. Сейфуллина 22" />
 
 
         <ImageView
             android:id="@+id/ivCopy"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="12dp"
             android:src="@drawable/ic_action_copy"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/ivShare" />
 
         <ImageView
             android:id="@+id/ivShare"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="12dp"
             android:src="@drawable/ic_action_share"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/ivWhatsApp" />
 
         <ImageView
             android:id="@+id/ivWhatsApp"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="12dp"
             android:src="@drawable/ic_whatsapp_logo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ivTelegram" />
+
+        <ImageView
+            android:id="@+id/ivTelegram"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="12dp"
+            android:src="@drawable/ic_telegram"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
