@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">hospitalslist</string>
+    <string name="app_name">Медицинские учреждения Казахстана</string>
     <string name="emptyData">Данные отсутствуют</string>
     <string name="text_copied">Скопировано</string>
     <string name="share_using">Поделиться</string>
