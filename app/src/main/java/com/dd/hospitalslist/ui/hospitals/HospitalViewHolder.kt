@@ -50,43 +50,42 @@ class HospitalViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
 
         ivCopy.setOnClickListener { view ->
-            scalingAnimationOf(view)
+            alphaAnimationOf(view)
             copyToClipboard(view.context, getTextToShare())
-
         }
 
         ivShare.setOnClickListener { view ->
-            scalingAnimationOf(view)
+            alphaAnimationOf(view)
             shareText(view.context, getTextToShare())
         }
 
         ivTelegram.setOnClickListener { view ->
-            scalingAnimationOf(view)
+            alphaAnimationOf(view)
             onClickTelegram(view.context, getTextToShare())
         }
 
         ivWhatsApp.setOnClickListener { view ->
-            scalingAnimationOf(view)
+            alphaAnimationOf(view)
             onClickWhatsApp(view.context, getTextToShare())
         }
 
         ivIconPhone.setOnClickListener { view ->
-            scalingAnimationOf(view)
+            alphaAnimationOf(view)
             dialPhone(view.context, getPhoneNumber())
         }
 
         tvPhone.setOnClickListener { view ->
-            scalingAnimationOf(view)
+            alphaAnimationOf(view)
             dialPhone(view.context, getPhoneNumber())
         }
 
         ivLocation.setOnClickListener { view ->
-            scalingAnimationOf(view)
+            alphaAnimationOf(view)
             shareLocation(view.context, getLocationAddress())
         }
 
         tvLocation.setOnClickListener { view ->
-            scalingAnimationOf(view)
+            alphaAnimationOf(view)
             shareLocation(view.context, getLocationAddress())
         }
 
@@ -112,6 +111,16 @@ class HospitalViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private fun getLocationAddress(): String {
         return tvLocation.text.toString()
+    }
+
+
+    private fun alphaAnimationOf(view: View) {
+        ObjectAnimator.ofFloat(view, View.ALPHA, 0f).apply {
+            repeatCount = 1
+            repeatMode = ObjectAnimator.REVERSE
+            disableViewDuringAnimation(view)
+            start()
+        }
     }
 
 
