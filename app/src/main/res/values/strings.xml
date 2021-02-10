@@ -3,4 +3,7 @@
     <string name="emptyData">Данные отсутствуют</string>
     <string name="text_copied">Скопировано</string>
     <string name="share_using">Поделиться</string>
+    <string name="telegram_not_installed">Telegram не установлен</string>
+    <string name="whatsapp_not_installed">WhatsApp не установлен</string>
+    <string name="error">Ошибка</string>
 </resources>
