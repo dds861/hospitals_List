@@ -38,10 +38,6 @@ class HospitalViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun create(parent: ViewGroup): HospitalViewHolder {
             val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_recyclerview, parent, false)
-
-
-
-
             return HospitalViewHolder(view)
         }
     }
@@ -99,9 +95,9 @@ class HospitalViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     }
 
     private fun getTextToShare(): String {
-        return "Регион: ${tvRegion.text}, " +
-                "Название: ${tvMedicalFacility.text}, " +
-                "Адрес: ${tvLocation.text}, " +
+        return "Регион: ${tvRegion.text},\n" +
+                "Название: ${tvMedicalFacility.text},\n" +
+                "Адрес: ${tvLocation.text},\n" +
                 "Контакты: ${tvPhone.text}"
     }
 
@@ -110,7 +106,7 @@ class HospitalViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     }
 
     private fun getLocationAddress(): String {
-        return tvLocation.text.toString()
+        return "${tvRegion.text} ${tvLocation.text}"
     }
 
 
@@ -156,7 +152,7 @@ class HospitalViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         )
     }
 
-    private fun onClickWhatsApp(context: Context, text: String) {
+    private fun onClickWhatsApp2(context: Context, text: String) {
         val pm: PackageManager = context.packageManager
         try {
             val waIntent = Intent(Intent.ACTION_SEND)
@@ -181,6 +177,26 @@ class HospitalViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                 .show()
         }
     }
+
+    private fun onClickWhatsApp(context: Context, text: String) {
+        val pm: PackageManager = context.packageManager
+        try {
+            val waIntent = Intent(Intent.ACTION_SEND)
+            waIntent.type = "text/plain"
+            val info = pm.getPackageInfo("com.whatsapp", PackageManager.GET_META_DATA)
+            //Check if package exists or not. If not then code
+            //in catch block will be called
+            waIntent.setPackage("com.whatsapp")
+            waIntent.putExtra(Intent.EXTRA_TEXT, text)
+            context.startActivity(Intent.createChooser(waIntent, "Share with"))
+        } catch (e: PackageManager.NameNotFoundException) {
+
+            Toast.makeText(context, "WhatsApp not Installed", Toast.LENGTH_SHORT)
+                .show()
+        }
+    }
+
+
 
     private fun onClickTelegram(context: Context, text: String) {
         val pm: PackageManager = context.packageManager
