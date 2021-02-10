@@ -1,19 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<MotionScene 
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:motion="http://schemas.android.com/apk/res-auto">
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--    <Transition-->
+    <!--        app:constraintSetEnd="@+id/end"-->
+    <!--        app:constraintSetStart="@id/start"-->
+    <!--        app:duration="1000">-->
+    <!--       <KeyFrameSet>-->
+    <!--       </KeyFrameSet>-->
+    <!--    </Transition>-->
+
+    <!--    <ConstraintSet android:id="@+id/start">-->
+    <!--    </ConstraintSet>-->
+
+    <!--    <ConstraintSet android:id="@+id/end">-->
+    <!--    </ConstraintSet>-->
+
 
     <Transition
-        motion:constraintSetEnd="@+id/end"
-        motion:constraintSetStart="@id/start"
-        motion:duration="1000">
-       <KeyFrameSet>
-       </KeyFrameSet>
+        app:constraintSetEnd="@id/collapsed"
+        app:constraintSetStart="@id/expanded">
+
+        <OnSwipe
+            app:dragDirection="dragUp"
+            app:touchAnchorId="@id/recyclerviewList"
+
+            app:touchAnchorSide="top" />
+
     </Transition>
 
-    <ConstraintSet android:id="@+id/start">
+    <ConstraintSet android:id="@+id/expanded">
+        <Constraint android:id="@id/spinnerRegion">
+            <CustomAttribute
+                app:attributeName="imageAlpha"
+                app:customIntegerValue="255" />
+
+        </Constraint>
+        <Constraint android:id="@id/spinnerCategory">
+            <CustomAttribute
+                app:attributeName="imageAlpha"
+                app:customIntegerValue="255" />
+
+        </Constraint>
+        <Constraint android:id="@id/searchView" />
     </ConstraintSet>
 
-    <ConstraintSet android:id="@+id/end">
+    <ConstraintSet android:id="@+id/collapsed">
+        <!--        <Constraint-->
+        <!--            android:id="@id/spinner_region"-->
+        <!--            android:layout_height="?attr/actionBarSize"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent">-->
+        <!--            <CustomAttribute-->
+        <!--                app:attributeName="imageAlpha"-->
+        <!--                app:customIntegerValue="0" />-->
+        <!--        </Constraint>-->
+        <Constraint
+            android:id="@id/spinnerCategory"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <CustomAttribute
+                app:attributeName="imageAlpha"
+                app:customIntegerValue="0" />
+        </Constraint>
+        <Constraint
+            android:id="@id/spinnerRegion"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <CustomAttribute
+                app:attributeName="imageAlpha"
+                app:customIntegerValue="0" />
+        </Constraint>
+
+        <Constraint
+            android:id="@id/searchView"
+
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize" />
+
     </ConstraintSet>
 </MotionScene>

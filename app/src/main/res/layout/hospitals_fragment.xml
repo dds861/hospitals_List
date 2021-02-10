@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
-        android:id="@+id/spinner_region"
+        android:id="@+id/spinnerRegion"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,7 +29,7 @@
         android:layout_height="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spinner_region" />
+        app:layout_constraintTop_toBottomOf="@id/spinnerRegion" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerviewList"
