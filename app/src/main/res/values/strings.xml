@@ -6,4 +6,8 @@
     <string name="telegram_not_installed">Telegram не установлен</string>
     <string name="whatsapp_not_installed">WhatsApp не установлен</string>
     <string name="error">Ошибка</string>
+
+    <string name="adUnitId">ca-app-pub-3941279894802307/2675092580</string>
+    <!--    for Testing-->
+    <!--    <string name="adUnitId">ca-app-pub-3940256099942544/6300978111</string>-->
 </resources>

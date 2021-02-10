@@ -18,6 +18,7 @@ import com.dd.hospitalslist.data.CategoryState
 import com.dd.hospitalslist.data.HospitalModel
 import com.dd.hospitalslist.data.RegionState
 import com.dd.hospitalslist.databinding.HospitalsFragmentBinding
+import com.google.android.gms.ads.AdRequest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -40,6 +41,11 @@ class HospitalFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = HospitalsFragmentBinding.inflate(inflater, container, false)
+
+
+        val adRequest = AdRequest.Builder().build()
+        binding.adView.loadAd(adRequest)
+
         return binding.root
     }
 

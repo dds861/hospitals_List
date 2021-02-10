@@ -9,6 +9,7 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/ic_cross"
         android:supportsRtl="true"
+
         android:theme="@style/Theme.Hospitalslist">
         <activity
             android:name=".ui.MainActivity"
@@ -19,6 +20,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3941279894802307~9898976486"/>
+
     </application>
     <queries>
         <package android:name="com.whatsapp" />
