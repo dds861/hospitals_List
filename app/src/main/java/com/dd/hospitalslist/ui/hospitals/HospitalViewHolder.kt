@@ -1,17 +1,18 @@
 package com.dd.hospitalslist.ui.hospitals
 
-import android.animation.*
+import android.animation.ObjectAnimator
+import android.animation.PropertyValuesHolder
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateInterpolator
-import android.view.animation.LinearInterpolator
-import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatImageView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.dd.hospitalslist.R
 import com.dd.hospitalslist.data.entities.Hospital
@@ -30,120 +31,57 @@ class HospitalViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val ivCopy = itemView.findViewById<ImageView>(R.id.ivCopy)
     private val ivShare = itemView.findViewById<ImageView>(R.id.ivShare)
     private val ivWhatsApp = itemView.findViewById<ImageView>(R.id.ivWhatsApp)
-    private val constraintLayoutItem = itemView.findViewById<ConstraintLayout>(R.id.constraintLayoutItem)
+    private val ivTelegram = itemView.findViewById<ImageView>(R.id.ivTelegram)
 
     companion object {
         fun create(parent: ViewGroup): HospitalViewHolder {
             val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_recyclerview, parent, false)
+                .inflate(R.layout.item_recyclerview, parent, false)
+
+
+
+
             return HospitalViewHolder(view)
         }
     }
 
     init {
+
+        val textToShare = "Название:$tvMedicalFacility, " +
+                "Регион: $tvRegion, " +
+                "Адрес: ${tvLocation.text}, " +
+                "Контакты: ${tvPhone.text}"
+
         ivCopy.setOnClickListener { view ->
-            val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 0.8f)
-            val scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 0.8f)
-            ObjectAnimator.ofPropertyValuesHolder(view, scaleX, scaleY).apply {
-                repeatCount = 1
-                repeatMode = ObjectAnimator.REVERSE
-                disableViewDuringAnimation(view)
-                start()
-            }
-
-        }
-
-        itemView.setOnClickListener { view ->
-            ObjectAnimator.ofFloat(view, View.TRANSLATION_X, 50f).apply {
-                repeatCount = 1
-                repeatMode = ObjectAnimator.REVERSE
-                disableViewDuringAnimation(view)
-                start()
-            }
-
-        }
-
-
-        constraintLayoutItem.setOnLongClickListener { view ->
-            ObjectAnimator.ofArgb(view.parent,
-                    "backgroundColor",
-                    ContextCompat.getColor(itemView.context, R.color.primary),
-                    ContextCompat.getColor(itemView.context, R.color.primary_dark)
-            ).apply {
-                duration = 500
-                repeatCount = 1
-                repeatMode = ObjectAnimator.REVERSE
-                disableViewDuringAnimation(view)
-                start()
-            }
-
-            false
-        }
-
-        ivWhatsApp.setOnClickListener { view ->
-            ObjectAnimator.ofFloat(view, View.ROTATION, -360f, 0f).apply {
-                duration = 1000
-                disableViewDuringAnimation(view)
-                start()
-            }
-        }
-
-        ivIconPhone.setOnClickListener { view ->
-            ObjectAnimator.ofFloat(view, View.ALPHA, 0f).apply {
-                repeatCount = 1
-                repeatMode = ObjectAnimator.REVERSE
-                disableViewDuringAnimation(view)
-                start()
-            }
-
-        }
-
-        ivLocation.setOnClickListener { view ->
+            scalingAnimationOf(view)
+            copyToClipboard(view.context, textToShare)
 
         }
 
         ivShare.setOnClickListener { view ->
-            val container = view.parent as ViewGroup
-            val containerW = container.width
-            val containerH = container.height
-            var starW: Float = view.width.toFloat()
-            var starH: Float = view.height.toFloat()
-
-
-            val newStar = AppCompatImageView(itemView.context)
-            newStar.setImageResource(R.drawable.ic_action_share)
-            newStar.layoutParams = FrameLayout.LayoutParams(
-                    FrameLayout.LayoutParams.WRAP_CONTENT,
-                    FrameLayout.LayoutParams.WRAP_CONTENT)
-            container.addView(newStar)
-
-            newStar.scaleX = Math.random().toFloat() * 1.5f + .1f
-            newStar.scaleY = newStar.scaleX
-            starW *= newStar.scaleX
-            starH *= newStar.scaleY
-
-            newStar.translationX = Math.random().toFloat() *
-                    containerW - starW / 2
-
-
-            val mover = ObjectAnimator.ofFloat(newStar, View.TRANSLATION_Y,
-                    -starH, containerH + starH)
-            mover.interpolator = AccelerateInterpolator(1f)
-            val rotator = ObjectAnimator.ofFloat(newStar, View.ROTATION,
-                    (Math.random() * 1080).toFloat())
-            rotator.interpolator = LinearInterpolator()
-
-            val set = AnimatorSet()
-            set.playTogether(mover, rotator)
-            set.duration = (Math.random() * 1500 + 500).toLong()
-
-            set.addListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator?) {
-                    container.removeView(newStar)
-                }
-            })
-            set.start()
+            scalingAnimationOf(view)
+            shareText(view.context, textToShare)
         }
+
+        ivTelegram.setOnClickListener { view ->
+            scalingAnimationOf(view)
+        }
+
+
+        ivWhatsApp.setOnClickListener { view ->
+            scalingAnimationOf(view)
+            onClickWhatsApp(view.context, textToShare)
+        }
+
+        ivIconPhone.setOnClickListener { view ->
+            scalingAnimationOf(view)
+
+        }
+
+        ivLocation.setOnClickListener { view ->
+            scalingAnimationOf(view)
+        }
+
     }
 
     fun bind(hospital: Hospital) {
@@ -151,5 +89,55 @@ class HospitalViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         tvRegion.text = hospital.region
         tvLocation.text = hospital.address
         tvPhone.text = hospital.phone?.replace("\\n", "\n")
+    }
+
+
+    private fun scalingAnimationOf(view: View) {
+        val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 0.8f)
+        val scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 0.8f)
+        ObjectAnimator.ofPropertyValuesHolder(view, scaleX, scaleY).apply {
+            repeatCount = 1
+            repeatMode = ObjectAnimator.REVERSE
+            disableViewDuringAnimation(view)
+            start()
+        }
+    }
+
+
+    private fun copyToClipboard(context: Context, text: String) {
+        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
+        val clip = ClipData.newPlainText("Makal text", text)
+        clipboard?.setPrimaryClip(clip)
+        Toast.makeText(context, R.string.text_copied, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun shareText(context: Context, text: String) {
+        val sharingIntent = Intent(Intent.ACTION_SEND)
+        sharingIntent.type = "text/plain"
+        sharingIntent.putExtra(Intent.EXTRA_SUBJECT, text)
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, text)
+        context.startActivity(
+            Intent.createChooser(
+                sharingIntent,
+                context.resources.getString(R.string.share_using)
+            )
+        )
+    }
+
+    private fun onClickWhatsApp(context: Context, text: String) {
+        val pm: PackageManager = context.packageManager
+        try {
+            val waIntent = Intent(Intent.ACTION_SEND)
+            waIntent.type = "text/plain"
+            val info = pm.getPackageInfo("com.whatsapp", PackageManager.GET_META_DATA)
+            //Check if package exists or not. If not then code
+            //in catch block will be called
+            waIntent.setPackage("com.whatsapp")
+            waIntent.putExtra(Intent.EXTRA_TEXT, text)
+            context.startActivity(Intent.createChooser(waIntent, "Share with"))
+        } catch (e: PackageManager.NameNotFoundException) {
+            Toast.makeText(context, "WhatsApp not Installed", Toast.LENGTH_SHORT)
+                .show()
+        }
     }
 }
